@@ -16,15 +16,34 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   min-width: 320px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 32%),
+    var(--paper);
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.75;
 }
 
 button,
@@ -109,7 +128,9 @@ em {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav-link {
@@ -117,9 +138,11 @@ em {
   align-items: center;
   gap: 7px;
   padding: 11px 12px;
-  font-size: 12px;
+  font-size: 0.78rem;
+  line-height: 1.4;
   color: #686d61;
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 
 .nav-link.active,
@@ -204,9 +227,9 @@ em {
 .intro p,
 .inner-hero p,
 .leader-hero p {
-  font-size: 13px;
+  font-size: 1rem;
   line-height: 1.8;
-  color: #6b7064;
+  color: #5f655d;
   max-width: 440px;
 }
 
@@ -553,15 +576,15 @@ em {
 }
 
 .quest-body h3 {
-  font: normal 23px / 1.1 var(--serif);
+  font: normal clamp(1.5rem, 2vw, 2rem) / 1.1 var(--serif);
   color: var(--forest);
   margin: 14px 0 7px;
 }
 
 .quest-body p {
-  font-size: 11px;
-  line-height: 1.65;
-  color: #707366;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #5f655d;
   min-height: 38px;
   margin: 0;
 }
@@ -1001,7 +1024,7 @@ em {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 12px;
+  gap: 16px;
   margin-top: 25px;
 }
 
@@ -1030,9 +1053,9 @@ em {
 }
 
 .description {
-  font-size: 13px;
+  font-size: 1rem;
   line-height: 1.8;
-  color: #6b7064;
+  color: #58615a;
 }
 
 .meta-line {
@@ -1066,9 +1089,9 @@ em {
   gap: 14px;
   padding: 13px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 12px;
-  line-height: 1.7;
-  color: #6b7064;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: #5d655d;
 }
 
 .instructions li b {
@@ -1132,9 +1155,9 @@ em {
 }
 
 .detail-aside p {
-  font-size: 10px;
-  line-height: 1.6;
-  color: #777a6d;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #5d655d;
 }
 
 /* Upload & Submissions */
@@ -1150,9 +1173,9 @@ em {
 }
 
 .upload > p {
-  font-size: 12px;
-  line-height: 1.7;
-  color: #6b7064;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #5d655d;
 }
 
 .upload-box {
@@ -1604,13 +1627,16 @@ em {
 /* Media Queries */
 @media (max-width: 820px) {
   .nav {
-    height: 70px;
-    padding: 0 20px;
+    height: auto;
+    min-height: 70px;
+    padding: 12px 20px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .nav-link {
-    padding: 9px 7px;
-    font-size: 10px;
+    padding: 9px 10px;
+    font-size: 0.72rem;
   }
 
   .logout {
@@ -1652,7 +1678,7 @@ em {
   }
 
   .brand {
-    font-size: 18px;
+    font-size: 1.05rem;
   }
 
   .brand-icon {
@@ -1685,6 +1711,7 @@ em {
     flex-direction: column;
     align-items: stretch;
     border-bottom: 1px solid var(--line);
+    z-index: 8;
   }
 
   .nav-links.open {
@@ -1795,7 +1822,7 @@ em {
 
   .quest-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .quest-card:first-child {
@@ -1820,7 +1847,7 @@ em {
   }
 
   .quest-body p {
-    font-size: 10px;
+    font-size: 0.8rem;
     min-height: 52px;
   }
 

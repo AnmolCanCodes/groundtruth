@@ -8,7 +8,7 @@ FastAPI MVP for an outdoor quest game. Users browse curated quests, upload image
 - 30 seeded quests across morning, evening, and optional safe night activities
 - Image format/content/size validation with randomized server-side filenames
 - Hugging Face text personalization with curated-quest fallback
-- Optional vision-model assessment; uncertain/provider-failure outcomes go to `needs_review`
+- Vision-model assessment is advisory; valid photo uploads are auto-approved unless the image is clearly irrelevant
 - XP ledger, levels, badges, streak tracking, and weekly regional leaderboard
 - pytest suite using an isolated in-memory SQLite database
 
@@ -63,8 +63,8 @@ pytest -q
 
 ## Important limitations
 - This is an MVP, not production-hardened. Add Alembic migrations, rate limiting, account verification, structured logging, backup/retention policy, and deployment secrets management before launch.
-- Vision model interfaces vary by provider/model. The configured endpoint must support the Hugging Face `InferenceClient` vision method. The current implementation fails closed to `needs_review` except obvious negative results; it deliberately does not auto-approve positive model output.
-- No admin role exists. A secure admin/manual-review workflow must be implemented before human-review submissions can be approved in a deployed app.
+- Vision model interfaces vary by provider/model. The configured endpoint must support the Hugging Face `InferenceClient` vision method. In this demo flow, the model is advisory: valid image uploads are auto-approved unless the model clearly marks them as unrelated.
+- The backend enforces file validation, quest checks, and XP rewards in Python; the model does not act as the only source of truth.
 - Uploads are stored locally and are not exposed through a static route. Use private object storage for multi-instance deployments.
 - Weekly boundaries use UTC. Streak calendar days currently use UTC, not each user's local timezone.
 - Database tables are created automatically for development. Use migrations for schema changes in production.

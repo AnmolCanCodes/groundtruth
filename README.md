@@ -72,7 +72,7 @@ The AI provides personalization and relevance assessments. Python controls valid
 
 This is an initial working-code implementation, not a verified production release. Run the tests and fix any failures before connecting a frontend or deploying it publicly.
 
-Vision-model verification and human-review approval are not fully production-ready. The current implementation deliberately avoids automatically approving uncertain image results.
+For this demo, valid photo submissions are auto-approved once the file passes validation. The image model is advisory and does not block successful submissions unless the image is clearly irrelevant.
 
 ### Prerequisites
 

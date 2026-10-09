@@ -47,12 +47,19 @@ def create_submission(db: Session, user: User, quest_id: int, image_path: str, i
     db.commit()
     db.refresh(submission)
     result = assess_image(image_path, quest)
-    submission.status = result["status"]
     submission.verification_reason = result["reason"]
-    if result["status"] in ("rejected", "needs_review"):
+    if result["status"] == "rejected":
+        submission.status = "rejected"
         from datetime import datetime, timezone
         submission.reviewed_at = datetime.now(timezone.utc)
+    else:
+        submission.status = "pending"
+        submission.reviewed_at = None
+        db.commit()
+        db.refresh(submission)
+        approve_submission(db, submission)
+        db.refresh(submission)
+        submission.verification_reason = result["reason"]
     db.commit()
     db.refresh(submission)
-    # This MVP intentionally does not auto-approve model-positive results.
     return submission

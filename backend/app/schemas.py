@@ -3,10 +3,10 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 class RegisterIn(BaseModel):
-    username: str = Field(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$")
+    username: str = Field(min_length=3, max_length=30,)
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
-    country: str = Field(default="India", max_length=80)
+    country: str = Field(default="", max_length=80)
     state: str = Field(default="", max_length=80)
     city: str = Field(default="", max_length=80)
 

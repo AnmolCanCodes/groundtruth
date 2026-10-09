@@ -37,11 +37,11 @@ def update_streak(user: User, today: date | None = None):
     user.last_quest_date = today
 
 def approve_submission(db: Session, submission: Submission) -> int:
-    """Idempotent transaction: approval and XP ledger update commit atomically."""
+    """Idempotent transaction: only explicitly pending submissions can be approved automatically."""
     db.refresh(submission)
     if submission.status == "approved" or db.scalar(select(XPTransaction.id).where(XPTransaction.submission_id == submission.id)):
         return 0
-    if submission.status not in ("pending", "needs_review"):
+    if submission.status != "pending":
         return 0
     amount = XP_BY_DIFFICULTY[submission.quest.difficulty]
     submission.status = "approved"
