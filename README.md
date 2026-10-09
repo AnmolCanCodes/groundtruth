@@ -68,6 +68,12 @@ The AI provides personalization and relevance assessments. Python controls valid
 
 ## 🚀 Getting Started
 
+## ⚠️ Current Readiness
+
+This is an initial working-code implementation, not a verified production release. Run the tests and fix any failures before connecting a frontend or deploying it publicly.
+
+Vision-model verification and human-review approval are not fully production-ready. The current implementation deliberately avoids automatically approving uncertain image results.
+
 ### Prerequisites
 
 * Python 3.11 or later
