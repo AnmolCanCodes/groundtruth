@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+groundtruth.db
+test_groundtruth.db
+uploads/*
+!uploads/.gitkeep
+test_uploads/
