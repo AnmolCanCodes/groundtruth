@@ -1,89 +1,191 @@
-# GroundTruth 🌍
+# GroundTruth
 
-### Touch Grass. Complete Quests. Earn XP.
+Turn everyday exploration into structured goals, measurable progress, and real-world rewards.
 
-GroundTruth is an AI-powered outdoor adventure game that turns everyday exploration into real-world quests.
+GroundTruth is a local-first outdoor quest platform that blends movement, photography, game mechanics, and AI-assisted personalization. Users complete approved outdoor tasks, submit photo evidence, earn experience points, unlock badges, and track progress through a weekly regional leaderboard.
 
-Choose a challenge, step outside, capture photo proof, earn experience points, unlock achievements, and compete on weekly regional leaderboards.
+This project is designed to show how an open, self-hostable system can make real-world participation more engaging without forcing users to hand their data to a proprietary platform.
 
-## ✨ Features
+## What this project does
 
-* **Daily outdoor quests:** Explore Morning, Evening, and Night challenges.
-* **AI-powered personalization:** Use an open-weight Gemma model to personalize quest titles, instructions, and creative twists.
-* **Photo proof:** Submit an image for a basic relevance check.
-* **XP and levels:** Earn experience points for approved quests.
-* **Achievements:** Collect badges and build streaks.
-* **Weekly leaderboards:** Compare approved quest activity by country, state, and city.
-* **Responsible AI:** Keep reward calculations deterministic and communicate the limitations of image verification.
+GroundTruth helps people:
 
-## 🎮 How It Works
+- discover safe, outdoor challenges across different time slots
+- complete real-world tasks with simple proof requirements
+- upload photo evidence for validation
+- earn XP, levels, and badges
+- compare progress with others in their region
+- self-host the app locally with full control over its data and model choices
 
-1. Choose a time slot and browse available quests.
-2. Select a quest and read its instructions.
-3. Complete the activity outdoors.
-4. Upload a photo as evidence.
-5. The backend validates the submission and checks whether the image appears relevant.
-6. Approved submissions earn XP and update the user's progress.
-7. Weekly XP determines leaderboard rankings.
+## Why it exists
 
-## 🧠 Why Gemma?
+Many productivity, fitness, and learning apps keep users inside a screen. GroundTruth is built around a different idea: use digital motivation to get people outside, move through the world, and build healthy habits through small, repeatable actions.
 
-GroundTruth uses an open-weight language model to personalize outdoor challenges instead of relying entirely on static descriptions.
+The project also demonstrates a practical open-innovation approach:
 
-The model operates within a curated quest library and predefined safety constraints. Backend validation determines which quests are permitted and how much XP they award.
+- you can run it on your own machine
+- your data can stay local instead of sitting on a third-party server
+- you can swap, inspect, or fine-tune the model behind the experience
+- you are not locked into one vendor or API contract
 
-A compatible vision-capable model is required for AI-based image relevance checks. Model availability depends on the selected inference provider.
+## How it works
 
-## 🛠️ Tech Stack
+1. A user signs up and selects a time slot such as morning, evening, or night.
+2. They browse curated quests with clear instructions, difficulty, and proof requirements.
+3. They complete the challenge in the real world.
+4. They upload a photo as evidence.
+5. The backend validates the upload and checks whether the image appears relevant to the task.
+6. Approved submissions award XP and update the user’s streak, progress, and leaderboard position.
+7. Weekly XP is aggregated by region such as country, state, or city.
 
-**Frontend**
+The reward logic is deterministic and controlled in Python, while AI is used as an assistant layer, not as the only authority.
 
-* React
-* Vite
-* Tailwind CSS
+## Core features
 
-**Backend**
+- Daily and time-based quest browsing
+- AI-assisted quest personalization using an open or hosted language model
+- Photo upload validation and relevance checks
+- XP and level progression
+- Badge generation and streak tracking
+- Weekly regional leaderboards
+- JWT-based user authentication
+- SQLite local database support for development or personal self-hosting
+- FastAPI backend with structured API endpoints
+- React frontend with protected routes and user dashboard flow
 
-* Python
-* FastAPI
-* Pydantic
-* SQLAlchemy
+## AI and open-model strategy
 
-**AI**
+GroundTruth is intentionally designed around open, inspectable AI instead of a black-box closed service.
 
-* Gemma through a compatible inference provider
-* Hugging Face Hub client
+The backend exposes model settings in a clean configuration layer and uses an inference layer that can be replaced with:
 
-**Storage**
+- a hosted Hugging Face model
+- a locally running open model
+- a different provider
+- a custom prompt or fine-tuned model
 
-* SQLite for local development
-* PostgreSQL for a multi-user deployment
-* Image storage appropriate to the deployment environment
+This makes the system more flexible and transparent than a typical closed application that depends on one private API for all behavior.
 
-## 🏗️ Architecture
+## Technical stack
 
-React frontend → FastAPI backend → Quest selection and validation → Gemma inference when needed → Photo verification → Reward engine → Database and leaderboard.
+### Frontend
 
-The AI provides personalization and relevance assessments. Python controls validation, XP awards, duplicate-claim prevention, and ranking calculations.
+- React
+- Vite
+- Tailwind CSS
+- React Router
 
-## 🚀 Getting Started
+### Backend
 
-## ⚠️ Current Readiness
+- Python
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- JWT authentication
 
-This is an initial working-code implementation, not a verified production release. Run the tests and fix any failures before connecting a frontend or deploying it publicly.
+### Data and storage
 
-For this demo, valid photo submissions are auto-approved once the file passes validation. The image model is advisory and does not block successful submissions unless the image is clearly irrelevant.
+- SQLite for local development
+- local upload directory for evidence files
+- structured server-side reward logic
+
+### AI layer
+
+- Hugging Face InferenceClient
+- configurable text generation model
+- optional vision model for relevance checks
+
+## System architecture
+
+The app follows a straightforward flow:
+
+Frontend → FastAPI API → SQL database → quest logic + requirements → AI personalization/relevance checks → XP rewards + leaderboard updates
+
+Important design principle: AI is advisory. The backend still decides whether the user gets credit.
+
+## Project structure
+
+```text
+GroundTruth/
+├── README.md
+├── LICENSE
+├── .gitignore
+├── backend/
+│   ├── .env
+│   ├── .env.example
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── groundtruth.db
+│   ├── uploads/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── ai_service.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   ├── quests.py
+│   │   ├── rewards.py
+│   │   ├── schemas.py
+│   │   ├── verification.py
+│   │   └── __pycache__/
+│   └── tests/
+│       ├── conftest.py
+│       ├── test_auth.py
+│       ├── test_leaderboard.py
+│       ├── test_quests.py
+│       └── test_submissions.py
+├── frontend/
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   ├── index.html
+│   ├── eslint.config.js
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── api.js
+│   ├── README.md
+│   ├── public/
+│   ├── components/
+│   ├── pages/
+│   └── src/
+└── groundtruth-frontend/
+    └── (legacy/generated frontend artifact if present)
+```
+
+## How it works in practice
+
+### Quest flow
+
+- quest is selected by time slot and difficulty
+- user reads task instructions and proof requirements
+- user completes the real-world action
+- proof image is uploaded
+- backend checks file validity and submission uniqueness
+- model may assist with personalization or image relevance
+- reward is applied only after backend validation
+
+### Reward flow
+
+- XP is tied to approved submissions
+- level is derived from cumulative XP
+- streaks are tracked on a date-based model
+- badges unlock through specific accomplishments
+- leaderboard rankings are computed by weekly XP in a region
+
+## Setup for another computer
 
 ### Prerequisites
 
-* Python 3.11 or later
-* Node.js and npm
-* A Hugging Face account and access to a compatible Gemma inference model
+- Python 3.11+
+- Node.js 18+
+- npm
+- Git
 
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/AnmolCanCodes/groundtruth.git
 cd groundtruth
 ```
 
@@ -94,25 +196,38 @@ cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
-On Windows, activate the environment with:
+Then edit the `.env` file:
 
-```bash
-.venv\Scripts\activate
+```env
+APP_NAME=GroundTruth API
+DATABASE_URL=sqlite:///./groundtruth.db
+HF_TOKEN=
+HF_TEXT_MODEL=google/gemma-2-2b-it
+HF_VISION_MODEL=
+JWT_SECRET=replace-with-a-long-random-secret
+JWT_EXPIRE_MINUTES=60
+FRONTEND_ORIGIN=http://localhost:5173
+UPLOAD_DIR=uploads
+MAX_UPLOAD_MB=5
 ```
 
-Create a `.env` file based on `.env.example`, then configure the database and model credentials.
-
-Start the API:
+### 3. Run the API
 
 ```bash
+cd backend
+source .venv/bin/activate
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs` to explore the API.
+The API will be available at:
 
-### 3. Set up the frontend
+- http://127.0.0.1:8000
+- API docs: http://127.0.0.1:8000/docs
+
+### 4. Set up the frontend
 
 Open a second terminal:
 
@@ -122,48 +237,110 @@ npm install
 npm run dev
 ```
 
-Configure the backend API URL in the frontend environment file if necessary.
+Then open the local Vite app in the browser, usually at:
 
-### 4. Configure AI inference
+- http://localhost:5173
 
-Set your Hugging Face token and the identifiers of compatible text and vision models in the backend environment.
+### 5. Optional: enable AI in the app
 
-Never expose inference credentials in frontend code or commit secrets to Git.
+If you want personalized quests and model-based image checks:
 
-## 🏆 Reward System
+- add a valid Hugging Face token
+- set `HF_TEXT_MODEL` and optionally `HF_VISION_MODEL`
+- keep your `.env` file local and never commit secrets
 
-* XP is awarded only by the backend after approval.
-* Lifetime XP determines user levels.
-* Weekly XP determines leaderboard position.
-* Badges recognize specific achievements.
-* Daily caps and duplicate-claim checks discourage reward farming.
+## Open innovation: why this matters
 
-Initial quest rewards are configurable and should be tuned using actual usage.
+This project is a good example of why open-based systems matter for real-world software.
 
-## 🔐 Safety and Privacy
+### Does it run on a laptop with no internet?
 
-* Use a curated library of permitted outdoor activities.
-* Avoid dangerous, inaccessible, or trespassing-related challenges.
-* Do not require nighttime activity.
-* Validate uploaded files and enforce upload limits.
-* Do not publish user photos by default.
-* Treat AI image assessments as estimates, not proof of time or location.
-* Keep secrets and sensitive user information out of source control.
+- Yes, the frontend and backend can run on a laptop without external internet access.
+- The database can remain local as SQLite.
+- The upload directory can remain local.
+- AI features work only if you connect to a local model or a reachable model server.
+- If you use remote Hugging Face APIs, internet is required for that inference path.
 
-## 🌱 Why Open-Source AI?
+### Can someone keep their data off a server they do not control?
 
-GroundTruth explores how open-weight AI can encourage real-world participation rather than increase screen time. It combines creative AI personalization with deterministic software rules, making the system easier to inspect, evaluate, and improve.
+Yes, by design.
 
-## 🗺️ Roadmap
+This app is structured so the core workflow can run self-hosted:
 
-* [ ] Curated quest library
-* [ ] Gemma-powered quest personalization
-* [ ] User accounts and persistent progress
-* [ ] Photo uploads and image relevance checks
-* [ ] XP, levels, badges, and streaks
-* [ ] Weekly regional leaderboards
-* [ ] Responsive interface and deployed demo
+- local SQLite database
+- local upload storage
+- local secrets in `.env`
+- no mandatory cloud dependency for the main game loop
 
-## 📄 License
+That gives users a better privacy posture than a closed SaaS application that stores everything on a vendor-controlled server.
 
-Choose and add an appropriate open-source license before publishing the repository.
+### Can you fine-tune, swap models, or change behavior?
+
+Yes, this is one of the strongest advantages of the open approach.
+
+The project isolates AI logic in:
+
+- `backend/app/ai_service.py`
+- `backend/app/config.py`
+- `backend/app/main.py`
+
+That means you can:
+
+- replace the text model
+- swap the vision model
+- change the prompt logic
+- add a local model endpoint
+- fine-tune stronger or lighter models for your use case
+- adjust reward and validation logic without depending on a proprietary backend team
+
+### Does it cost nothing to run?
+
+The software itself is free and open to run locally. The real cost depends on deployment choices:
+
+- local laptop/self-hosted: near-zero running cost beyond electricity
+- remote hosted LLM: actual API cost
+- cloud deployment: ongoing hosting and bandwidth costs
+
+That makes the open approach appealing for prototypes, personal projects, learning environments, and privacy-sensitive deployments.
+
+## Where open-based design works better than a closed model
+
+Open-based design gives GroundTruth several advantages over a closed or proprietary system:
+
+- better transparency: the logic is inspectable and editable
+- stronger privacy: local data stays under your control
+- easier customization: replace prompts, models, and validation logic
+- lower dependency risk: no single vendor lock-in
+- easier experimentation: test local models, edge cases, and behavior changes quickly
+- better trust: users can understand and audit how the system works
+
+A closed system may be simpler in the short term, but it often reduces control, flexibility, and ownership. This app was intentionally built to keep those controls in the hands of the operator.
+
+## Testing
+
+```bash
+cd backend
+source .venv/bin/activate
+pytest -q
+```
+
+## License
+
+This project is distributed under the repository license in [LICENSE](LICENSE).
+
+## Notes for production use
+
+This project is a working MVP, not a full production platform. Before public deployment, consider:
+
+- proper deployment secrets management
+- stronger rate limiting and abuse prevention
+- user verification and moderation
+- more robust image moderation and content review
+- database migrations
+- backups and retention policies
+- production hosting setup for multi-user environments
+
+## Summary
+
+GroundTruth is a practical example of using open, local-first systems to create an engaging real-world challenge app. It combines game mechanics, community competition, and AI personalization without depending on a closed SaaS model. That makes it a strong example of what open innovation can do when applied to everyday digital experiences.
+
