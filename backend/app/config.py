@@ -12,7 +12,12 @@ class Settings(BaseSettings):
     frontend_origin: str = "http://localhost:5173"
     upload_dir: str = "uploads"
     max_upload_mb: int = 5
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore", case_sensitive=False)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        case_sensitive=False,
+    )
 
 @lru_cache
 def get_settings() -> Settings:
