@@ -149,8 +149,6 @@ GroundTruth/
 │   ├── components/
 │   ├── pages/
 │   └── src/
-└── groundtruth-frontend/
-    └── (legacy/generated frontend artifact if present)
 ```
 
 ## How it works in practice
@@ -328,17 +326,6 @@ pytest -q
 
 This project is distributed under the repository license in [LICENSE](LICENSE).
 
-## Notes for production use
-
-This project is a working MVP, not a full production platform. Before public deployment, consider:
-
-- proper deployment secrets management
-- stronger rate limiting and abuse prevention
-- user verification and moderation
-- more robust image moderation and content review
-- database migrations
-- backups and retention policies
-- production hosting setup for multi-user environments
 
 ## Summary
 
